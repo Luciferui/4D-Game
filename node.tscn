@@ -1,0 +1,283 @@
+[gd_scene format=3 uid="uid://plolu6nxf61n"]
+
+[ext_resource type="Script" uid="uid://bkbndli2vj25w" path="res://World4D.gd" id="1_j2q8x"]
+[ext_resource type="Script" uid="uid://coub8lbwbk0vt" path="res://Object4D.gd" id="2_112p8"]
+[ext_resource type="Script" uid="uid://b18bip6e43wry" path="res://Player4D.gd" id="2_e2u21"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_nxiqb"]
+
+[sub_resource type="Animation" id="Animation_sy5k4"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeshInstance3D:position:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MeshInstance3D:rotation:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("MeshInstance3D:rotation:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("MeshInstance3D:rotation:z")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/6/type = "bezier"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../../Player/Template/MeshInstance3D:position:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/7/type = "bezier"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("../../Player/Template/MeshInstance3D:position:y")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1.7082942, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/8/type = "bezier"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("../../Player/Template/MeshInstance3D:position:z")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_112p8"]
+resource_name = "decalée"
+length = 40.0
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../Player/Template/MeshInstance3D:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 2, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -2.8710184, 0, 2.4034886, 0, 0, -5.274507, 0, 0, 0),
+"times": PackedFloat32Array(5.73, 22.95611, 37.37704)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../Player/Template/MeshInstance3D:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 2, 2),
+"points": PackedFloat32Array(1.7082942, -0.25, 0, 0.25, 0, 5, -2.8710184, 0, 2.4034886, 0, 1.7082942, -5.274507, 0, 0, 0),
+"times": PackedFloat32Array(5.73, 22.95611, 37.37704)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../../Player/Template/MeshInstance3D:position:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 2, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -2.8710184, 0, 2.4034886, 0, 0, -5.274507, 0, 0, 0),
+"times": PackedFloat32Array(5.73, 22.95611, 37.37704)
+}
+
+[sub_resource type="Animation" id="Animation_j2q8x"]
+resource_name = "default"
+length = 20.0
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 2, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.4166667, 0, 0, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2.5, 19.866667)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 2, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 2, -0.4166667, -0.33333334, 0, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2.5, 19.866667)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeshInstance3D:position:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 2, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.4166667, 0, 0, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2.5, 19.866667)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MeshInstance3D:rotation:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 2, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.4166667, 0, 0, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2.5, 19.866667)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("MeshInstance3D:rotation:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 2, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.4166667, 0, 0, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2.5, 19.866667)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("MeshInstance3D:rotation:z")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0, 2, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -0.7853982, -0.4166667, 0.1308997, 0, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2.5, 19.866667)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_112p8"]
+_data = {
+&"RESET": SubResource("Animation_sy5k4"),
+&"decalée": SubResource("Animation_112p8"),
+&"default": SubResource("Animation_j2q8x")
+}
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_112p8"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_j2q8x"]
+
+[node name="Node" type="Node" unique_id=484371017]
+script = ExtResource("1_j2q8x")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=730253959]
+transform = Transform3D(0.8287056, 0, -0.5596848, 0.23713486, 0.9058056, 0.35111722, 0.50696564, -0.42369357, 0.7506462, -3.9170828, 1.9236689, 3.2307007)
+
+[node name="Node3D" type="Node3D" parent="." unique_id=941760556]
+script = ExtResource("2_112p8")
+w_end = 10.0
+time_slices = 1000
+
+[node name="Template" type="Node3D" parent="Node3D" unique_id=1069026347]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/Template" unique_id=1078121323]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_nxiqb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node3D/Template" unique_id=1829312441]
+libraries/ = SubResource("AnimationLibrary_112p8")
+
+[node name="Player" type="Node3D" parent="." unique_id=1408991428]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.313712, 0, 0)
+script = ExtResource("2_e2u21")
+w_end = 1000.0
+time_slices = 10000
+animation_name = "RESET"
+
+[node name="Template" type="Node3D" parent="Player" unique_id=2004538165]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Template" unique_id=351384966]
+transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 1, 0, 1.7082942, 0)
+mesh = SubResource("CapsuleMesh_112p8")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Template" unique_id=1817519351]
+libraries/ = SubResource("AnimationLibrary_112p8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2046952029]
+transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, -10, 0)
+mesh = SubResource("BoxMesh_j2q8x")
+
+[node name="Node3D3" type="Node3D" parent="." unique_id=1663669631]
+script = ExtResource("2_112p8")
+
+[node name="Template" type="Node3D" parent="Node3D3" unique_id=806187178]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D3/Template" unique_id=2048925484]
+transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_nxiqb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node3D3/Template" unique_id=1714882051]
+libraries/ = SubResource("AnimationLibrary_112p8")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=502209679]
+transform = Transform3D(0.5942333, 0, 0.80429274, 0, 1, 0, -0.80429274, 0, 0.5942333, 2.837222, 1.0295842, 2.7293887)
+far = 10000.0
