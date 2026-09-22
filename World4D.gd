@@ -4,7 +4,7 @@ extends Node
 var global_T: float = 0.0
 var angle_XW: float = 0.0
 
-@export var rotation_speed: float = 1.0
+@export var rotation_speed: float = 5.0
  
 func _process(delta: float) -> void:
 	# Le temps réel pousse le présent de la caméra vers l'avant
@@ -13,10 +13,10 @@ func _process(delta: float) -> void:
 	# Contrôles pour tourner l'espace-temps
 	var rotation_changed = false
 	if Input.is_action_pressed("rotate_xw_plus"):
-		angle_XW += rotation_speed * delta * max(0.1, cos(angle_XW))
+		angle_XW += rotation_speed * delta * cos(angle_XW)
 		rotation_changed = true
 	if Input.is_action_pressed("rotate_xw_minus"):
-		angle_XW -= rotation_speed * delta * max(0.1, cos(angle_XW))
+		angle_XW -= rotation_speed * delta * cos(angle_XW)
 		rotation_changed = true
 	if Input.is_action_pressed("reinit_xw"):
 		angle_XW = 0.
@@ -53,8 +53,8 @@ func render_world_4d() -> void:
 				
 				# Étape 3 : Plan de coupe (La caméra voit ce qui a w' proche de 0)
 				if abs(w_prime) < thickness:
-					ghost_node.visible = true
+					object.set_ghost_visible(clone_data, true)
 					# On déplace le Nœud Parent (le Mesh animé bougera librement à l'intérieur)
 					ghost_node.global_position = Vector3(x_prime, y_prime, z_prime)
 				else:
-					ghost_node.visible = false
+					object.set_ghost_visible(clone_data, false)
