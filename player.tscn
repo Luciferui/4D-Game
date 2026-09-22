@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://4q6di3hbcqye"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ssidi"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_4d8j6"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_sh265"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ssidi"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ssidi"]
+
+[node name="Player" type="CharacterBody3D" unique_id=115030262]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1848393419]
+mesh = SubResource("CapsuleMesh_ssidi")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=39369572]
+transform = Transform3D(0.0985211, 0.016222117, 0.00551699, 0, -0.032197967, 0.09467466, 0.017134592, -0.09327451, -0.03172179, 0.4715541, 0.45801318, 0.22251081)
+mesh = SubResource("CapsuleMesh_4d8j6")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1825408682]
+transform = Transform3D(0.1, 0, 0, 0, 0.03255682, 0.09455187, 0, -0.09455187, 0.03255682, 0.46685416, 0.46433222, -0.20239194)
+mesh = SubResource("CapsuleMesh_sh265")
+surface_material_override/0 = SubResource("StandardMaterial3D_ssidi")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=121263440]
+transform = Transform3D(0.15104745, 0, 0, 0, -1.5091738e-08, -0.14688796, 0, 0.34525868, -6.420677e-09, 0.44786018, 0.19916153, -0.007806778)
+mesh = SubResource("CapsuleMesh_sh265")
+surface_material_override/0 = SubResource("StandardMaterial3D_ssidi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=616554777]
+shape = SubResource("CapsuleShape3D_ssidi")
