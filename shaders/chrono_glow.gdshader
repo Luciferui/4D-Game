@@ -6,6 +6,11 @@ render_mode unshaded, blend_add, cull_disabled, depth_draw_never;
 
 #include "res://shaders/lib_noise.gdshaderinc"
 
+// Décalage temporel (4D) : le clone i utilise TIME - i * dt.
+// 0.0 (défaut) -> objet 3D classique, animation temps réel normale.
+uniform float u_time_offset = 0.0;
+uniform float u_alpha : hint_range(0.0, 1.0) = 1.0;
+
 uniform vec4 u_color : source_color = vec4(0.3, 0.85, 1.0, 1.0);
 uniform float u_energy : hint_range(0.0, 8.0) = 2.0;
 uniform float u_scale = 3.0;
@@ -29,7 +34,8 @@ void vertex() {
 
 void fragment() {
 	vec2 plane = chrono_plane(v_world, v_normal_world) * u_scale;
-	float flow = TIME * u_speed;
+	float t = TIME - u_time_offset;
+	float flow = t * u_speed;
 
 	float lines = 0.5 + 0.5 * sin((plane.y + plane.x * 0.35 - flow) * 6.28318);
 	lines = pow(lines, 4.0);
@@ -44,5 +50,5 @@ void fragment() {
 	glow *= mix(1.0, vertical_fade, u_fade);
 
 	ALBEDO = u_color.rgb * u_energy;
-	ALPHA = clamp(glow, 0.0, 1.0);
+	ALPHA = clamp(glow, 0.0, 1.0) * u_alpha;
 }

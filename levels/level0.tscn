@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://bltti65yvq3kx"]
 
-[ext_resource type="Script" uid="uid://bkbndli2vj25w" path="res://World4D.gd" id="1_world"]
-[ext_resource type="Script" uid="uid://d1j82o7pkpe7a" path="res://Player3D.gd" id="2_player"]
-[ext_resource type="Script" uid="uid://coub8lbwbk0vt" path="res://Object4D.gd" id="3_object4d"]
-[ext_resource type="Script" uid="uid://cf8m4lw14ne0x" path="res://Torch.gd" id="4_torch"]
-[ext_resource type="PackedScene" uid="uid://4q6di3hbcqye" path="res://player.tscn" id="5_player_scene"]
-[ext_resource type="Shader" uid="uid://dytjr5s7pc38s" path="res://shaders/floor_stone.gdshader" id="6_sh_floor"]
-[ext_resource type="Shader" uid="uid://dxrqr10uakta1" path="res://shaders/wall_stone.gdshader" id="7_sh_wall"]
-[ext_resource type="Shader" uid="uid://bhgo2o31ds0ia" path="res://shaders/chrono_slab.gdshader" id="8_sh_slab"]
-[ext_resource type="Shader" uid="uid://cy0ndxtw0h2mq" path="res://shaders/chrono_glow.gdshader" id="9_sh_glow"]
+[ext_resource type="Script" uid="uid://bkbndli2vj25w" path="res://4DScripts/World4D.gd" id="1_w2q2b"]
+[ext_resource type="Shader" uid="uid://dxrqr10uakta1" path="res://shaders/wall_stone.gdshader" id="2_f811g"]
+[ext_resource type="Shader" uid="uid://dytjr5s7pc38s" path="res://shaders/floor_stone.gdshader" id="3_f3act"]
+[ext_resource type="Shader" uid="uid://cy0ndxtw0h2mq" path="res://shaders/chrono_glow.gdshader" id="4_cxy21"]
+[ext_resource type="Script" uid="uid://cf8m4lw14ne0x" path="res://assets/Torch.gd" id="5_v3eec"]
+[ext_resource type="Script" uid="uid://coub8lbwbk0vt" path="res://4DScripts/Object4D.gd" id="6_1jtsu"]
+[ext_resource type="Shader" uid="uid://bhgo2o31ds0ia" path="res://shaders/chrono_slab.gdshader" id="7_qlvc7"]
+[ext_resource type="PackedScene" uid="uid://4q6di3hbcqye" path="res://player/player.tscn" id="8_gbmev"]
+[ext_resource type="Script" uid="uid://d1j82o7pkpe7a" path="res://player/Player3D.gd" id="9_muost"]
 
 [sub_resource type="ProceduralSkyMaterial" id="SkyMat"]
 sky_top_color = Color(0.05, 0.07, 0.19, 1)
@@ -64,7 +64,7 @@ adjustment_saturation = 1.15
 
 [sub_resource type="ShaderMaterial" id="MatWallBack"]
 render_priority = 0
-shader = ExtResource("7_sh_wall")
+shader = ExtResource("2_f811g")
 shader_parameter/u_block_color = Color(0.42, 0.39, 0.35, 1)
 shader_parameter/u_block_color_alt = Color(0.3, 0.29, 0.285, 1)
 shader_parameter/u_mortar_color = Color(0.16, 0.155, 0.15, 1)
@@ -87,7 +87,7 @@ size = Vector3(13, 3.4, 13)
 
 [sub_resource type="ShaderMaterial" id="MatFloorHall"]
 render_priority = 0
-shader = ExtResource("6_sh_floor")
+shader = ExtResource("3_f3act")
 shader_parameter/u_deep_color = Color(0.16, 0.16, 0.19, 1)
 shader_parameter/u_light_color = Color(0.34, 0.32, 0.3, 1)
 shader_parameter/u_grout_color = Color(0.055, 0.055, 0.07, 1)
@@ -101,7 +101,7 @@ shader_parameter/u_grime = 0.5
 
 [sub_resource type="ShaderMaterial" id="MatFloorVault"]
 render_priority = 0
-shader = ExtResource("6_sh_floor")
+shader = ExtResource("3_f3act")
 shader_parameter/u_deep_color = Color(0.14, 0.15, 0.18, 1)
 shader_parameter/u_light_color = Color(0.3, 0.3, 0.3, 1)
 shader_parameter/u_grout_color = Color(0.05, 0.06, 0.08, 1)
@@ -115,7 +115,7 @@ shader_parameter/u_grime = 0.6
 
 [sub_resource type="ShaderMaterial" id="MatWallLow"]
 render_priority = 0
-shader = ExtResource("7_sh_wall")
+shader = ExtResource("2_f811g")
 shader_parameter/u_block_color = Color(0.36, 0.33, 0.3, 1)
 shader_parameter/u_block_color_alt = Color(0.27, 0.255, 0.245, 1)
 shader_parameter/u_mortar_color = Color(0.14, 0.135, 0.13, 1)
@@ -150,7 +150,7 @@ roughness = 0.28
 
 [sub_resource type="ShaderMaterial" id="MatSlot"]
 render_priority = 0
-shader = ExtResource("9_sh_glow")
+shader = ExtResource("4_cxy21")
 shader_parameter/u_color = Color(0.35, 0.85, 1, 1)
 shader_parameter/u_energy = 1.1
 shader_parameter/u_scale = 6.0
@@ -162,7 +162,7 @@ shader_parameter/u_fade = 0.0
 
 [sub_resource type="ShaderMaterial" id="MatSealPresent"]
 render_priority = 0
-shader = ExtResource("9_sh_glow")
+shader = ExtResource("4_cxy21")
 shader_parameter/u_color = Color(1, 0.45, 0.12, 1)
 shader_parameter/u_energy = 1.8
 shader_parameter/u_scale = 1.2
@@ -242,7 +242,7 @@ _data = {
 
 [sub_resource type="ShaderMaterial" id="MatRing"]
 render_priority = 0
-shader = ExtResource("9_sh_glow")
+shader = ExtResource("4_cxy21")
 shader_parameter/u_color = Color(0.3, 0.85, 1, 1)
 shader_parameter/u_energy = 1.6
 shader_parameter/u_scale = 3.0
@@ -333,7 +333,7 @@ size = Vector2(0.07, 0.07)
 
 [sub_resource type="ShaderMaterial" id="MatSlab"]
 render_priority = 0
-shader = ExtResource("8_sh_slab")
+shader = ExtResource("7_qlvc7")
 shader_parameter/u_body_color = Color(0.08, 0.09, 0.11, 1)
 shader_parameter/u_metal_color = Color(0.3, 0.31, 0.34, 1)
 shader_parameter/u_glyph_color = Color(1, 0.45, 0.14, 1)
@@ -369,7 +369,7 @@ _data = {
 
 [sub_resource type="ShaderMaterial" id="MatSealPast"]
 render_priority = 0
-shader = ExtResource("9_sh_glow")
+shader = ExtResource("4_cxy21")
 shader_parameter/u_color = Color(0.3, 0.9, 1, 1)
 shader_parameter/u_energy = 2.2
 shader_parameter/u_scale = 1.2
@@ -381,7 +381,7 @@ shader_parameter/u_fade = 0.0
 
 [sub_resource type="ShaderMaterial" id="MatMonolith"]
 render_priority = 0
-shader = ExtResource("9_sh_glow")
+shader = ExtResource("4_cxy21")
 shader_parameter/u_color = Color(1, 0.6, 0.2, 1)
 shader_parameter/u_energy = 1.4
 shader_parameter/u_scale = 2.5
@@ -392,7 +392,7 @@ shader_parameter/u_ring_width = 0.05
 shader_parameter/u_fade = 0.65
 
 [node name="Node" type="Node" unique_id=47067074]
-script = ExtResource("1_world")
+script = ExtResource("1_w2q2b")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1684014301]
 environment = SubResource("Env")
@@ -758,7 +758,7 @@ light_color = Color(1, 0.62, 0.28, 1)
 light_energy = 2.4
 omni_range = 9.0
 omni_attenuation = 1.4
-script = ExtResource("4_torch")
+script = ExtResource("5_v3eec")
 
 [node name="TorchHallLeft" type="Node3D" parent="Room" unique_id=717060314]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 0, -5.88)
@@ -778,7 +778,7 @@ light_color = Color(1, 0.62, 0.28, 1)
 light_energy = 2.2
 omni_range = 9.0
 omni_attenuation = 1.4
-script = ExtResource("4_torch")
+script = ExtResource("5_v3eec")
 
 [node name="TorchVault" type="Node3D" parent="Room" unique_id=637853900]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -5.88, 0, 3)
@@ -798,7 +798,7 @@ light_color = Color(1, 0.66, 0.32, 1)
 light_energy = 2.2
 omni_range = 9.0
 omni_attenuation = 1.4
-script = ExtResource("4_torch")
+script = ExtResource("5_v3eec")
 
 [node name="BrazierBack" type="StaticBody3D" parent="Room" unique_id=1196657605]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -4)
@@ -823,7 +823,7 @@ light_color = Color(1, 0.6, 0.26, 1)
 light_energy = 2.6
 omni_range = 7.5
 omni_attenuation = 1.8
-script = ExtResource("4_torch")
+script = ExtResource("5_v3eec")
 
 [node name="Shape" type="CollisionShape3D" parent="Room/BrazierBack" unique_id=1697101496]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
@@ -852,7 +852,7 @@ light_color = Color(1, 0.62, 0.28, 1)
 light_energy = 2.6
 omni_range = 7.5
 omni_attenuation = 1.8
-script = ExtResource("4_torch")
+script = ExtResource("5_v3eec")
 
 [node name="Shape" type="CollisionShape3D" parent="Room/BrazierFront" unique_id=2128457224]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
@@ -867,7 +867,7 @@ process_material = SubResource("ProcDust")
 draw_pass_1 = SubResource("MeshDust")
 
 [node name="GateSealed" type="Node3D" parent="." unique_id=1978140038]
-script = ExtResource("3_object4d")
+script = ExtResource("6_1jtsu")
 w_start = 1.8
 w_end = 240.0
 time_slices = 2000
@@ -884,7 +884,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 shape = SubResource("ShapePanel")
 
 [node name="GateRising" type="Node3D" parent="." unique_id=1491681643]
-script = ExtResource("3_object4d")
+script = ExtResource("6_1jtsu")
 w_start = 0.8
 w_end = 1.8
 time_slices = 24
@@ -892,6 +892,7 @@ time_slices = 24
 [node name="Template" type="StaticBody3D" parent="GateRising" unique_id=615856204]
 
 [node name="Panel" type="Node3D" parent="GateRising/Template" unique_id=1964163235]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.1, 0)
 
 [node name="Slab" type="MeshInstance3D" parent="GateRising/Template/Panel" unique_id=935151682]
 transform = Transform3D(0.16, 0, 0, 0, 3, 0, 0, 0, 2.12, 0, 1.5, 0)
@@ -906,7 +907,7 @@ shape = SubResource("ShapePanel")
 libraries/ = SubResource("LibDoor")
 
 [node name="SealBroken" type="Node3D" parent="." unique_id=1521421635]
-script = ExtResource("3_object4d")
+script = ExtResource("6_1jtsu")
 w_end = 2.0
 time_slices = 8
 
@@ -928,7 +929,7 @@ mesh = SubResource("MeshBox")
 surface_material_override/0 = SubResource("MatSealPast")
 
 [node name="PastMonolith" type="Node3D" parent="." unique_id=1995587894]
-script = ExtResource("3_object4d")
+script = ExtResource("6_1jtsu")
 position_3d_origin = Vector3(-5.2, 0, -3.6)
 w_end = 2.0
 time_slices = 8
@@ -951,10 +952,10 @@ light_color = Color(1, 0.6, 0.22, 1)
 light_energy = 2.6
 omni_range = 8.0
 omni_attenuation = 1.6
-script = ExtResource("4_torch")
+script = ExtResource("5_v3eec")
 
 [node name="PastLabel" type="Node3D" parent="." unique_id=333275133]
-script = ExtResource("3_object4d")
+script = ExtResource("6_1jtsu")
 w_end = 2.0
 time_slices = 8
 
@@ -981,9 +982,9 @@ text = "LE SCEAU SE REFERME : [I] POUR REVENIR DANS LE PASSÉ
 font_size = 64
 outline_size = 24
 
-[node name="Player" parent="." unique_id=1090055250 instance=ExtResource("5_player_scene")]
+[node name="Player" parent="." unique_id=1090055250 instance=ExtResource("8_gbmev")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2, 1.05, -3.4)
-script = ExtResource("2_player")
+script = ExtResource("9_muost")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=526954637]
 transform = Transform3D(0.7071, -0.2752, 0.6513, 0, 0.921, 0.3892, -0.7071, -0.2752, 0.6513, 8.2, 6.2, 8.2)

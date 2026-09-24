@@ -5,6 +5,11 @@ render_mode cull_back, diffuse_burley, specular_schlick_ggx;
 
 #include "res://shaders/lib_noise.gdshaderinc"
 
+// Décalage temporel (4D) : le clone i utilise TIME - i * dt.
+// 0.0 (défaut) -> objet 3D classique, animation temps réel normale.
+uniform float u_time_offset = 0.0;
+uniform float u_alpha : hint_range(0.0, 1.0) = 1.0;
+
 uniform vec4 u_body_color : source_color = vec4(0.09, 0.1, 0.12, 1.0);
 uniform vec4 u_metal_color : source_color = vec4(0.3, 0.31, 0.34, 1.0);
 uniform vec4 u_glyph_color : source_color = vec4(1.0, 0.42, 0.12, 1.0);
@@ -40,6 +45,8 @@ void fragment() {
 	METALLIC = u_metallic;
 	ROUGHNESS = mix(u_roughness, 0.85, 1.0 - glyph);
 
-	float pulse = 0.6 + 0.4 * sin(TIME * u_pulse_speed + v_world.y * 1.4);
+	float t = TIME - u_time_offset;
+	float pulse = 0.6 + 0.4 * sin(t * u_pulse_speed + v_world.y * 1.4);
 	EMISSION = u_glyph_color.rgb * (glyph + seam * 0.45) * u_glyph_energy * pulse;
+	ALPHA = u_alpha;
 }

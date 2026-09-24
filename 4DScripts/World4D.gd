@@ -5,7 +5,7 @@ var global_T: float = 0.0
 var angle_XW: float = 0.0
 
 @export var rotation_speed: float = 5.0
- 
+
 func _process(delta: float) -> void:
 	# Le temps réel pousse le présent de la caméra vers l'avant
 	global_T += delta
@@ -52,6 +52,8 @@ func render_world_4d() -> void:
 				var w_prime = -object.position_3d_origin.x * s + relative_w * c
 				
 				# Étape 3 : Plan de coupe (La caméra voit ce qui a w' proche de 0)
+				if abs(relative_w) < thickness:
+					object._apply_ghost_alpha(ghost_node, 1.0)
 				if abs(w_prime) < thickness:
 					object.set_ghost_visible(clone_data, true)
 					# On déplace le Nœud Parent (le Mesh animé bougera librement à l'intérieur)

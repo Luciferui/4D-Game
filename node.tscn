@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://plolu6nxf61n"]
 
-[ext_resource type="Script" uid="uid://bkbndli2vj25w" path="res://World4D.gd" id="1_j2q8x"]
-[ext_resource type="Script" uid="uid://coub8lbwbk0vt" path="res://Object4D.gd" id="2_112p8"]
-[ext_resource type="Script" uid="uid://d1j82o7pkpe7a" path="res://Player3D.gd" id="3_112p8"]
-[ext_resource type="PackedScene" uid="uid://4q6di3hbcqye" path="res://player.tscn" id="3_e2u21"]
+[ext_resource type="Script" uid="uid://bkbndli2vj25w" path="res://4DScripts/World4D.gd" id="1_j2q8x"]
+[ext_resource type="Script" uid="uid://coub8lbwbk0vt" path="res://4DScripts/Object4D.gd" id="2_112p8"]
+[ext_resource type="Script" uid="uid://d1j82o7pkpe7a" path="res://player/Player3D.gd" id="3_112p8"]
+[ext_resource type="PackedScene" uid="uid://4q6di3hbcqye" path="res://player/player.tscn" id="3_e2u21"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_nxiqb"]
 
