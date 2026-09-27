@@ -201,6 +201,3 @@ mesh = SubResource("BoxMesh_j2q8x")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=2131524892]
 shape = SubResource("BoxShape3D_e2u21")
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=502209679]
-transform = Transform3D(0.70710677, -0.49999997, 0.49999997, 0, 0.70710677, 0.70710677, -0.70710677, -0.49999997, 0.49999997, 7.739309, 5.9407406, 7.7470775)
-far = 10000.0

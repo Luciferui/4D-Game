@@ -1,32 +1,49 @@
 extends CharacterBody3D
-@export var move_speed: float = 10
-@export var acceleration: float = 25.
-@export var deceleration: float = 18.
 
-var w_position: float = 0.0
-var _ghost_w_offsets: Array[float] = []
-var angle : float = 0.0
-var gravity : float = 0.5
-var has_jump : bool = false
+@export var move_speed: float = 10.0
+@export var acceleration: float = 25.0
+@export var deceleration: float = 18.0
+@export var mouse_sensitivity: float = 0.002
+
+var gravity: float = 0.5
+var has_jump: bool = false
+var camera_pitch: float = 0.0
+
+@onready var camera: Camera3D = $Camera3D
+
 func _ready() -> void:
-	pass
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		# Tourner le joueur horizontalement (axe Y)
+		rotate_y(-event.relative.x * mouse_sensitivity)
+		# Incliner la caméra verticalement (axe X)
+		camera_pitch = clamp(camera_pitch - event.relative.y * mouse_sensitivity, -deg_to_rad(89.0), deg_to_rad(89.0))
+		if camera:
+			camera.rotation.x = camera_pitch
+	elif event is InputEventKey and event.is_pressed() and not event.is_echo():
+		if event.keycode == KEY_ESCAPE:
+			if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			else:
+				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	elif event is InputEventMouseButton and event.is_pressed():
+		if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _physics_process(delta: float) -> void:
 	var movement := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	
-	if Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right") or Input.is_action_pressed("move_forward") or Input.is_action_pressed("move_back"):
-		var normalized = movement.normalized()
-		angle = acos(normalized.x) if asin(normalized.y) < 0 else -acos(normalized.x)
-	global_rotation = Vector3(0.0,angle, 0.0)
+	# Direction relative à l'orientation du joueur
+	var direction := (global_transform.basis * Vector3(movement.x, 0.0, movement.y)).normalized() if movement.length_squared() > 0.0 else Vector3.ZERO
 	
-	
-	var target_velocity := Vector2(movement.x, movement.y) * move_speed
+	var target_velocity := Vector2(direction.x, direction.z) * move_speed
 	var horizontal_velocity := Vector2(velocity.x, velocity.z)
 	var speed_change := acceleration if target_velocity.length_squared() > 0.0 else deceleration
 	horizontal_velocity = horizontal_velocity.move_toward(target_velocity, speed_change * delta)
 	velocity.x = horizontal_velocity.x
 	velocity.z = horizontal_velocity.y
-	
 	
 	velocity.y -= gravity
 	if Input.is_action_pressed("move_up"):
@@ -38,6 +55,4 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("move_down"):
 		velocity.y -= 1.0
 	
-	
 	move_and_slide()
-	#position += direction * move_speed * delta

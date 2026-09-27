@@ -8,6 +8,9 @@
 [ext_resource type="Shader" uid="uid://bhgo2o31ds0ia" path="res://shaders/chrono_slab.gdshader" id="5_omn1t"]
 [ext_resource type="Shader" uid="uid://dxrqr10uakta1" path="res://shaders/wall_stone.gdshader" id="7_8hd6v"]
 [ext_resource type="Shader" uid="uid://cy0ndxtw0h2mq" path="res://shaders/chrono_glow.gdshader" id="8_045es"]
+[ext_resource type="Script" uid="uid://c6g2xg36oq2k5" path="res://Scripts/Button3D.gd" id="9_omn1t"]
+[ext_resource type="Script" uid="uid://cf8m4lw14ne0x" path="res://assets/Torch.gd" id="10_lf3p4"]
+[ext_resource type="Shader" uid="uid://cpbxjswkwauar" path="res://shaders/neural_sky.gdshader" id="11_nrsky"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_5j5gb"]
 
@@ -26,7 +29,7 @@ shader_parameter/u_relief = 0.25
 shader_parameter/u_grime = 0.5
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ssidi"]
-size = Vector3(20, 0.1, 20)
+size = Vector3(15, 0.1, 15)
 
 [sub_resource type="BoxMesh" id="BoxMesh_hx44q"]
 
@@ -92,7 +95,7 @@ shader_parameter/u_time_offset = 0.0
 shader_parameter/u_alpha = 1.0
 shader_parameter/u_body_color = Color(0.08, 0.09, 0.11, 1)
 shader_parameter/u_metal_color = Color(0.3, 0.31, 0.34, 1)
-shader_parameter/u_glyph_color = Color(1, 0.45, 0.14, 1)
+shader_parameter/u_glyph_color = Color(1.5111723, 0.70260185, 0.23448206, 1)
 shader_parameter/u_glyph_energy = 2.0
 shader_parameter/u_glyph_scale = 3.2
 shader_parameter/u_pulse_speed = 1.4
@@ -102,29 +105,112 @@ shader_parameter/u_roughness = 0.35
 [sub_resource type="BoxShape3D" id="BoxShape3D_045es"]
 size = Vector3(0.16, 3, 2.12)
 
+[sub_resource type="Animation" id="Animation_omn1t"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Slab:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -1.5999999, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SlabShape:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -1.5999999, 0)]
+}
+
 [sub_resource type="Animation" id="AnimDoor"]
 resource_name = "default"
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Panel:position:y")
+tracks/0/path = NodePath("Slab:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [-3.1, 0.0]
+"values": [Vector3(0, -1.5999999, 0), Vector3(0, 1.5, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SlabShape:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -1.5999999, 0), Vector3(0, 1.5, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_omn1t"]
 _data = {
+&"RESET": SubResource("Animation_omn1t"),
 &"default": SubResource("AnimDoor")
 }
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lf3p4"]
+emission_shape = 3
+emission_box_extents = Vector3(5.8, 2.4, 5.8)
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 0.02
+initial_velocity_max = 0.09
+gravity = Vector3(0, 0, 0)
+scale_min = 0.2
+scale_max = 1.1
+color = Color(1, 0.88, 0.7, 0.5)
+turbulence_enabled = true
+turbulence_noise_strength = 0.25
+turbulence_noise_scale = 1.5
+turbulence_noise_speed = Vector3(0.05, 0.02, 0.05)
+
+[sub_resource type="Gradient" id="GradDust"]
+offsets = PackedFloat32Array(0, 0.4, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.9, 0.75, 0.5, 1, 0.8, 0.6, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_yydhl"]
+gradient = SubResource("GradDust")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="StandardMaterial3D" id="MatDust"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(1, 0.88, 0.68, 0.4)
+albedo_texture = SubResource("GradientTexture2D_yydhl")
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_bekh1"]
+material = SubResource("MatDust")
+size = Vector2(0.07, 0.07)
+
 [sub_resource type="BoxMesh" id="BoxMesh_3d320"]
-size = Vector3(0.7713623, 0.6621094, 3.143341)
+size = Vector3(0.7713623, 0.6621094, 4.584854)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sq1fu"]
 render_priority = 0
@@ -142,30 +228,30 @@ shader_parameter/u_dirt_height = 1.3
 shader_parameter/u_dirt_amount = 0.7
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4d8j6"]
-size = Vector3(0.75805664, 0.6538086, 3.097168)
+size = Vector3(0.75805664, 0.6538086, 4.472412)
 
 [sub_resource type="BoxMesh" id="BoxMesh_4d8j6"]
 size = Vector3(1, 3.7904053, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1bvd7"]
-albedo_color = Color(0.46, 0.44006667, 0.4002, 1)
+albedo_color = Color(0.5686275, 0.54901963, 0.5019608, 1)
 metallic = 0.47
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2xqxx"]
 size = Vector3(1, 3.7855835, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3d320"]
-size = Vector3(0.772522, 0.6575012, 3.1473541)
+size = Vector3(0.772522, 0.6575012, 5.4064674)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ssidi"]
-size = Vector3(0.48391724, 1.0052261, 3.1247864)
+size = Vector3(0.48391724, 1.0052261, 4.569229)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2xqxx"]
 render_priority = 0
 shader = ExtResource("8_045es")
 shader_parameter/u_time_offset = 0.0
 shader_parameter/u_alpha = 1.0
-shader_parameter/u_color = Color(1.7177548, 0.37348583, 0, 1)
+shader_parameter/u_color = Color(1.375, 0.291, 0, 1)
 shader_parameter/u_energy = 2.0
 shader_parameter/u_scale = 3.0
 shader_parameter/u_speed = 0.6
@@ -175,7 +261,7 @@ shader_parameter/u_ring_width = 0.06
 shader_parameter/u_fade = 0.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_sq1fu"]
-size = Vector3(0.46862793, 2.1667175, 3.051056)
+size = Vector3(0.46862793, 2.1667175, 5.2237015)
 
 [sub_resource type="BoxMesh" id="BoxMesh_045es"]
 size = Vector3(0.7713623, 0.6621094, 1.8671341)
@@ -199,20 +285,245 @@ size = Vector3(0.48391724, 1.0052261, 1.8846588)
 size = Vector3(0.46862793, 2.1667175, 2.0924225)
 
 [sub_resource type="BoxMesh" id="BoxMesh_sq1fu"]
+size = Vector3(1, 1, 1.2763672)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1bvd7"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_gcltg"]
+size = Vector3(1.519043, 0.23632813, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l7nqg"]
+albedo_color = Color(0.39100003, 0.46, 0.45885, 1)
+metallic = 0.29
+roughness = 0.55
+
+[sub_resource type="BoxMesh" id="BoxMesh_a5s8o"]
+size = Vector3(0.80651855, 0.23632813, 0.70581055)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ls4ot"]
+size = Vector3(0.46731567, 0.9677429, 0.41662598)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tx362"]
+size = Vector3(0.7664871, 0.06619072, 0.7518616)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gcltg"]
+size = Vector3(1.5150757, 1.4890137, 1.0001221)
+
+[sub_resource type="SphereMesh" id="SphereMesh_4d8j6"]
+radial_segments = 16
+rings = 3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yydhl"]
+transparency = 1
+albedo_color = Color(0, 2.911, 2.911, 1)
+
+[sub_resource type="Animation" id="Animation_bekh1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.5317917, 0.37430644, -9.0606985)]
+}
+
+[sub_resource type="Animation" id="Animation_yydhl"]
+resource_name = "floating_crystal"
+length = 2.0333333
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.03333333, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.5317917, 0.37430644, -9.0606985), Vector3(-0.532, 0.5, -9.061), Vector3(-0.5317917, 0.37430644, -9.0606985)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bekh1"]
+_data = {
+&"RESET": SubResource("Animation_bekh1"),
+&"floating_crystal": SubResource("Animation_yydhl")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rki57"]
+size = Vector3(1.2616577, 0.6290283, 0.91900635)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2xqxx"]
+size = Vector3(2, 0.2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lf3p4"]
+render_priority = 0
+shader = ExtResource("1_61w3m")
+shader_parameter/u_deep_color = Color(0.457, 1.511, 1.371, 1)
+shader_parameter/u_light_color = Color(0.07450981, 0.06666667, 0.0627451, 1)
+shader_parameter/u_grout_color = Color(0.055, 0.055, 0.07, 1)
+shader_parameter/u_glow_color = Color(0.25, 0.85, 1, 1)
+shader_parameter/u_tile_size = 1.0
+shader_parameter/u_grout_width = 0.06
+shader_parameter/u_roughness = 0.35
+shader_parameter/u_grout_glow = 0.0
+shader_parameter/u_relief = 0.25
+shader_parameter/u_grime = 0.5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lf3p4"]
+size = Vector3(2.00708, 1.7420654, 1.9777832)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yydhl"]
+render_priority = 0
+shader = ExtResource("1_61w3m")
+shader_parameter/u_deep_color = Color(1.5111723, 0.942105, 0, 1)
+shader_parameter/u_light_color = Color(0.07450981, 0.06666667, 0.0627451, 1)
+shader_parameter/u_grout_color = Color(0.055, 0.055, 0.07, 1)
+shader_parameter/u_glow_color = Color(0.25, 0.85, 1, 1)
+shader_parameter/u_tile_size = 1.0
+shader_parameter/u_grout_width = 0.06
+shader_parameter/u_roughness = 0.8
+shader_parameter/u_grout_glow = 0.0
+shader_parameter/u_relief = 0.25
+shader_parameter/u_grime = 0.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_jq2cn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a5s8o"]
+albedo_color = Color(0.44, 0.42, 0.39, 1)
+metallic = 0.04
+roughness = 0.82
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ls4ot"]
+radial_segments = 24
+rings = 1
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_tx362"]
+height = 3.4
+radius = 0.36
+
+[sub_resource type="BoxMesh" id="BoxMesh_bekh1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8bcou"]
+albedo_color = Color(0.34, 0.35, 0.38, 1)
+metallic = 0.9
+roughness = 0.28
+
+[sub_resource type="Gradient" id="GradFlame"]
+offsets = PackedFloat32Array(0, 0.25, 0.6, 1)
+colors = PackedColorArray(1, 1, 0.9, 1, 1, 0.75, 0.35, 0.9, 0.9, 0.35, 0.1, 0.35, 0.4, 0.08, 0.05, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_f7u7y"]
+gradient = SubResource("GradFlame")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="StandardMaterial3D" id="MatFlame"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(1, 0.72, 0.35, 0.85)
+albedo_texture = SubResource("GradientTexture2D_f7u7y")
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_jq2cn"]
+material = SubResource("MatFlame")
+size = Vector2(0.5, 0.9)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1bvd7"]
+size = Vector3(0.5900879, 1.7514648, 14.997261)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_omn1t"]
+render_priority = 0
+shader = ExtResource("7_8hd6v")
+shader_parameter/u_block_color = Color(0.46, 0.43, 0.39, 1)
+shader_parameter/u_block_color_alt = Color(0.26, 0.25306666, 0.24959998, 1)
+shader_parameter/u_mortar_color = Color(0.165, 0.16, 0.155, 1)
+shader_parameter/u_dirt_color = Color(0.3529276, 0.3529276, 0.3529276, 0)
+shader_parameter/u_block_width = 1.35
+shader_parameter/u_row_height = 0.55
+shader_parameter/u_mortar_width = 0.05
+shader_parameter/u_roughness = 0.88
+shader_parameter/u_relief = 0.25
+shader_parameter/u_dirt_height = 1.3
+shader_parameter/u_dirt_amount = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_f7u7y"]
+size = Vector3(1.243042, 0.26745605, 15.63372)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y15du"]
+size = Vector3(15.346924, 6.2130127, 0.91345215)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bekh1"]
+shader = ExtResource("11_nrsky")
+shader_parameter/u_time_offset = 0.0
+shader_parameter/u_deep_color = Color(0.006, 0.004, 0.016, 1)
+shader_parameter/u_tissue_color = Color(0.05, 0.02, 0.1, 1)
+shader_parameter/u_neuron_color = Color(0.494, 1.037, 1.375, 1)
+shader_parameter/u_fire_color = Color(2.201, 1.389, 0.576, 1)
+shader_parameter/u_density = 8.0
+shader_parameter/u_node_glow = 0.5770000274075
+shader_parameter/u_wire_glow = 0.6650000315875
+shader_parameter/u_pulse_speed = 1.0000000475
+shader_parameter/u_drift = 0.0050000002375
+
+[sub_resource type="Sky" id="Sky_yydhl"]
+sky_material = SubResource("ShaderMaterial_bekh1")
+
+[sub_resource type="Environment" id="Environment_yydhl"]
+background_mode = 2
+sky = SubResource("Sky_yydhl")
+ambient_light_source = 2
+ambient_light_color = Color(0.45, 0.55, 0.85, 1)
+ambient_light_energy = 0.5
+tonemap_mode = 4
+tonemap_exposure = 0.95
+tonemap_white = 6.0
+ssao_enabled = true
+ssao_radius = 0.8
+ssao_intensity = 2.4
+ssao_power = 1.6
+ssao_detail = 0.6
+glow_enabled = true
+glow_intensity = 1.0
+glow_bloom = 0.22
+glow_hdr_threshold = 0.85
+fog_enabled = true
+fog_light_color = Color(0.16, 0.19, 0.3, 1)
+fog_light_energy = 0.6
+fog_sun_scatter = 0.3
+fog_density = 0.002
+fog_aerial_perspective = 0.1
+fog_sky_affect = 0.0
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.005
+volumetric_fog_emission = Color(0.02, 0.03, 0.06, 1)
+volumetric_fog_gi_inject = 0.1
+volumetric_fog_length = 70.0
+adjustment_enabled = true
+adjustment_contrast = 1.1
+adjustment_saturation = 1.15
 
 [node name="Node3D" type="Node3D" unique_id=1133795623]
 script = ExtResource("1_pdpul")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1412806505]
-transform = Transform3D(0.7071068, -0.5, 0.5, 0, 0.7071068, 0.7071068, -0.7071068, -0.5, 0.5, 0, 8.033758, 0)
+transform = Transform3D(0.120136745, 0.2452101, -0.9619975, 0, 0.9690157, 0.24699901, 0.9927574, -0.029673656, 0.1164144, 0, 8.033758, 0)
 light_color = Color(1, 0.9411765, 0.9254902, 1)
+light_energy = 1.6
+light_volumetric_fog_energy = 0.2
+light_angular_distance = 1.4
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1968911531]
 
 [node name="FloorHall" type="MeshInstance3D" parent="StaticBody3D" unique_id=1985752302]
-transform = Transform3D(20, 0, 0, 0, 0.2, 0, 0, 0, 20, 0, -0.1, 0)
+transform = Transform3D(15, 0, 0, 0, 0.2, 0, 0, 0, 15, 0, -0.1, 0)
 mesh = SubResource("BoxMesh_5j5gb")
 surface_material_override/0 = SubResource("ShaderMaterial_mx85b")
 
@@ -220,13 +531,15 @@ surface_material_override/0 = SubResource("ShaderMaterial_mx85b")
 shape = SubResource("BoxShape3D_ssidi")
 
 [node name="Player" parent="." unique_id=115030262 instance=ExtResource("2_pdpul")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5636306, 1.2603796, 6.213359)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5636306, 1.2603796, 3.6112623)
 script = ExtResource("3_8hd6v")
 
 [node name="GateSealed" type="Node3D" parent="." unique_id=156834310]
 script = ExtResource("4_045es")
+w_start = -3.0
 w_end = 240.0
-time_slices = 100
+time_slices = 120
+animation_name = "RESET"
 
 [node name="Template" type="StaticBody3D" parent="GateSealed" unique_id=832676806]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
@@ -245,27 +558,43 @@ libraries/ = SubResource("AnimationLibrary_8hd6v")
 
 [node name="GateRising" type="Node3D" parent="." unique_id=393648769]
 script = ExtResource("4_045es")
-w_start = -1.0
-w_end = 0.0
-time_slices = 24
+w_start = -4.9
+w_end = -2.8
+time_slices = 60
 
 [node name="Template" type="StaticBody3D" parent="GateRising" unique_id=150740426]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
 
-[node name="Panel" type="Node3D" parent="GateRising/Template" unique_id=880261148]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.1, 0)
-
-[node name="Slab" type="MeshInstance3D" parent="GateRising/Template/Panel" unique_id=1988272076]
-transform = Transform3D(0.16, 0, 0, 0, 3, 0, 0, 0, 2.12, 0, 1.5, 0)
+[node name="Slab" type="MeshInstance3D" parent="GateRising/Template" unique_id=1988272076]
+transform = Transform3D(0.16, 0, 0, 0, 3, 0, 0, 0, 2.12, 0, -1.5999999, 0)
 mesh = SubResource("BoxMesh_pdpul")
 surface_material_override/0 = SubResource("ShaderMaterial_8hd6v")
 
-[node name="SlabShape" type="CollisionShape3D" parent="GateRising/Template/Panel" unique_id=6085023]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+[node name="SlabShape" type="CollisionShape3D" parent="GateRising/Template" unique_id=6085023]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5999999, 0)
 shape = SubResource("BoxShape3D_045es")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="GateRising/Template" unique_id=72467999]
 libraries/ = SubResource("AnimationLibrary_omn1t")
+
+[node name="Dust" type="GPUParticles3D" parent="." unique_id=1209166705]
+transform = Transform3D(1.2622074, 0, 0, 0, 1, 0, 0, 0, 1.1977675, 0, 2.3, 0)
+amount = 240
+lifetime = 16.0
+preprocess = 8.0
+process_material = SubResource("ParticleProcessMaterial_lf3p4")
+draw_pass_1 = SubResource("QuadMesh_bekh1")
+
+[node name="Hint" type="Label3D" parent="." unique_id=1103642218]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.4, 0)
+pixel_size = 0.011
+billboard = 1
+modulate = Color(1, 0.96, 0.88, 1)
+outline_modulate = Color(0.03, 0.02, 0.06, 1)
+text = "[I] Pour redemarrer
+[W] [X], [O] [P] Tourne dans l'espace temps"
+font_size = 64
+outline_size = 24
 
 [node name="StaticTemple" type="Node3D" parent="." unique_id=1957163294]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5636306, 1.2603796, 6.213359)
@@ -277,6 +606,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8113432, -0.8293017, -8.446
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8839998, 0.273)
 
 [node name="Mesh" type="MeshInstance3D" parent="StaticTemple/MurGauche/HautMur" unique_id=2116394373]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.72075653)
 mesh = SubResource("BoxMesh_3d320")
 surface_material_override/0 = SubResource("ShaderMaterial_sq1fu")
 
@@ -298,23 +628,23 @@ shape = SubResource("BoxShape3D_2xqxx")
 [node name="basMur" type="StaticBody3D" parent="StaticTemple/MurGauche" unique_id=805759544]
 
 [node name="HautMur2" type="MeshInstance3D" parent="StaticTemple/MurGauche/basMur" unique_id=1910676534]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.273)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.434088)
 mesh = SubResource("BoxMesh_3d320")
 surface_material_override/0 = SubResource("ShaderMaterial_sq1fu")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticTemple/MurGauche/basMur" unique_id=924289908]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.002532959, -0.0058135986, 0.27507782)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.002532959, -0.0058135986, -0.45077896)
 shape = SubResource("BoxShape3D_3d320")
 
 [node name="Window" type="StaticBody3D" parent="StaticTemple/MurGauche" unique_id=252575246]
 
 [node name="Window" type="MeshInstance3D" parent="StaticTemple/MurGauche/Window" unique_id=1699872461]
-transform = Transform3D(1, 0, 0, 0, 2.2717133, 0, 0, 0, 1, -0.0016021729, 1.4664222, 0.294914)
+transform = Transform3D(1, 0, 0, 0, 2.2717133, 0, 0, 0, 1, -0.0017893314, 1.4826453, -0.34040284)
 mesh = SubResource("BoxMesh_ssidi")
 surface_material_override/0 = SubResource("ShaderMaterial_2xqxx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticTemple/MurGauche/Window" unique_id=1091841577]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0072631836, 1.487022, 0.23924255)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0072631836, 1.487022, -0.48041534)
 shape = SubResource("BoxShape3D_sq1fu")
 
 [node name="MurDroit" type="Node3D" parent="StaticTemple" unique_id=648272363]
@@ -324,11 +654,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.957, -0.8, -8.429171)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8839998, 0.27299976)
 
 [node name="Mesh" type="MeshInstance3D" parent="StaticTemple/MurDroit/HautMur" unique_id=1889378212]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5520847)
 mesh = SubResource("BoxMesh_3d320")
 surface_material_override/0 = SubResource("ShaderMaterial_sq1fu")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticTemple/MurDroit/HautMur" unique_id=1208663831]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008178711, 0.0061035156, 0.029541016)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008178711, 0.0061035156, -0.65808105)
 shape = SubResource("BoxShape3D_4d8j6")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="StaticTemple/MurDroit" unique_id=1576571626]
@@ -345,27 +676,27 @@ shape = SubResource("BoxShape3D_2xqxx")
 [node name="basMur" type="StaticBody3D" parent="StaticTemple/MurDroit" unique_id=543946715]
 
 [node name="HautMur2" type="MeshInstance3D" parent="StaticTemple/MurDroit/basMur" unique_id=317470845]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.273)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.41969156)
 mesh = SubResource("BoxMesh_3d320")
 surface_material_override/0 = SubResource("ShaderMaterial_sq1fu")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticTemple/MurDroit/basMur" unique_id=62419477]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.002532959, -0.0058135986, 0.27507782)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.002532959, -0.0058135986, -0.12862206)
 shape = SubResource("BoxShape3D_3d320")
 
 [node name="Window" type="StaticBody3D" parent="StaticTemple/MurDroit" unique_id=817984198]
 
 [node name="Window" type="MeshInstance3D" parent="StaticTemple/MurDroit/Window" unique_id=1990746302]
-transform = Transform3D(1, 0, 0, 0, 2.2717133, 0, 0, 0, 1, -0.0016021729, 1.4664222, 0.294914)
+transform = Transform3D(1, 0, 0, 0, 2.2717133, 0, 0, 0, 1, -0.0016021729, 1.4664221, -0.42730737)
 mesh = SubResource("BoxMesh_ssidi")
 surface_material_override/0 = SubResource("ShaderMaterial_2xqxx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticTemple/MurDroit/Window" unique_id=794105425]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0072631836, 1.487022, 0.23924255)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0072631836, 1.4870219, -0.12742233)
 shape = SubResource("BoxShape3D_sq1fu")
 
 [node name="MurFond" type="Node3D" parent="StaticTemple" unique_id=740550459]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.5171702, -0.8, -10.157182)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.5171703, -0.8, -11.641411)
 
 [node name="HautMur" type="StaticBody3D" parent="StaticTemple/MurFond" unique_id=1504449365]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8839998, 0.27299976)
@@ -440,6 +771,7 @@ shape = SubResource("BoxShape3D_1bvd7")
 transform = Transform3D(4.258967, 0, 0, 0, 0.27253538, 0, 0, 0, 4.964323, -0.541938, 2.438349, -8.530222)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticTemple/Toiture/StaticBody3D4" unique_id=1065599927]
+transform = Transform3D(0.99999976, 0, 0, 0, 0.9999995, 0, 0, 0, 0.9999999, 0, 0, -0.1381836)
 mesh = SubResource("BoxMesh_sq1fu")
 surface_material_override/0 = SubResource("StandardMaterial3D_1bvd7")
 
@@ -466,18 +798,230 @@ surface_material_override/0 = SubResource("StandardMaterial3D_1bvd7")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticTemple/Toiture/StaticBody3D" unique_id=990766202]
 shape = SubResource("BoxShape3D_1bvd7")
 
-[node name="Hint" type="Label3D" parent="." unique_id=1103642218]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.4, 0)
-pixel_size = 0.011
-billboard = 1
-modulate = Color(1, 0.96, 0.88, 1)
-outline_modulate = Color(0.03, 0.02, 0.06, 1)
-text = "[I] Pour redemarrer
-[W] [X], [O] [P] Tourne dans l'espace temps"
-font_size = 64
-outline_size = 24
+[node name="Autel" type="StaticBody3D" parent="StaticTemple" unique_id=1423392236]
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=398569424]
-transform = Transform3D(0.7071, -0.2752, 0.6513, 0, 0.921, 0.3892, -0.7071, -0.2752, 0.6513, 8.2, 6.2, 8.2)
-fov = 70.0
-far = 10000.0
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticTemple/Autel" unique_id=925029347]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5810472, -1.1221442, -10.604014)
+mesh = SubResource("BoxMesh_gcltg")
+surface_material_override/0 = SubResource("StandardMaterial3D_l7nqg")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="StaticTemple/Autel" unique_id=67233251]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5458299, -0.9046631, -10.551158)
+mesh = SubResource("BoxMesh_a5s8o")
+surface_material_override/0 = SubResource("StandardMaterial3D_l7nqg")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="StaticTemple/Autel" unique_id=590451016]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5615922, -0.29012418, -10.542796)
+mesh = SubResource("BoxMesh_ls4ot")
+surface_material_override/0 = SubResource("StandardMaterial3D_l7nqg")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="StaticTemple/Autel" unique_id=1436544415]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.56837094, 0.22516668, -10.5412855)
+mesh = SubResource("BoxMesh_tx362")
+surface_material_override/0 = SubResource("StandardMaterial3D_l7nqg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticTemple/Autel" unique_id=1874600507]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.57769966, -0.4786377, -10.596529)
+shape = SubResource("BoxShape3D_gcltg")
+
+[node name="EndCrytstal" type="Area3D" parent="StaticTemple" unique_id=1317244976]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5317917, 0.37430644, -9.0606985)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticTemple/EndCrytstal" unique_id=157397896]
+transform = Transform3D(0.5, 0, 0, 0, 0.697, 0, 0, 0, 0.5, 0, 0.17356133, -1.4619982)
+mesh = SubResource("SphereMesh_4d8j6")
+surface_material_override/0 = SubResource("StandardMaterial3D_yydhl")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="StaticTemple/EndCrytstal" unique_id=751485468]
+libraries/ = SubResource("AnimationLibrary_bekh1")
+autoplay = &"floating_crystal"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticTemple/EndCrytstal" unique_id=1447630639]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0059509277, 0.22036648, -1.3242588)
+shape = SubResource("BoxShape3D_rki57")
+
+[node name="3DButtonBackward" type="Area3D" parent="." unique_id=584276145]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0.115, 3.153)
+script = ExtResource("9_omn1t")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="3DButtonBackward" unique_id=117464359]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17229843, 0, -0.35863018)
+mesh = SubResource("BoxMesh_2xqxx")
+surface_material_override/0 = SubResource("ShaderMaterial_lf3p4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="3DButtonBackward" unique_id=2109787883]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18273926, 0.9303975, -0.3572998)
+shape = SubResource("BoxShape3D_lf3p4")
+
+[node name="3DButtonForward" type="Area3D" parent="." unique_id=1705349150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0.115, 3.153)
+script = ExtResource("9_omn1t")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="3DButtonForward" unique_id=915663281]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17229843, 0, -0.35863018)
+mesh = SubResource("BoxMesh_2xqxx")
+surface_material_override/0 = SubResource("ShaderMaterial_yydhl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="3DButtonForward" unique_id=913937715]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18273926, 0.9149723, -0.3572998)
+shape = SubResource("BoxShape3D_lf3p4")
+
+[node name="StaticEnvirronment" type="StaticBody3D" parent="." unique_id=1116979373]
+
+[node name="ColumnHallFront" type="StaticBody3D" parent="StaticEnvirronment" unique_id=1263604207]
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 6.28019, 3.3492284, -1.7398293)
+
+[node name="Base" type="MeshInstance3D" parent="StaticEnvirronment/ColumnHallFront" unique_id=1972988398]
+transform = Transform3D(0.92, 0, 0, 0, 0.28, 0, 0, 0, 0.92, 0, 0, 0)
+mesh = SubResource("BoxMesh_jq2cn")
+surface_material_override/0 = SubResource("StandardMaterial3D_a5s8o")
+
+[node name="Shaft" type="MeshInstance3D" parent="StaticEnvirronment/ColumnHallFront" unique_id=2125059321]
+transform = Transform3D(0.7, 0, 0, 0, 3, 0, 0, 0, 0.7, 0, 0, 0)
+mesh = SubResource("CylinderMesh_ls4ot")
+surface_material_override/0 = SubResource("StandardMaterial3D_a5s8o")
+
+[node name="Capital" type="MeshInstance3D" parent="StaticEnvirronment/ColumnHallFront" unique_id=1047022482]
+transform = Transform3D(0.95, 0, 0, 0, 0.3, 0, 0, 0, 0.95, 0, 3.32, 0)
+mesh = SubResource("BoxMesh_jq2cn")
+surface_material_override/0 = SubResource("StandardMaterial3D_a5s8o")
+
+[node name="Shape" type="CollisionShape3D" parent="StaticEnvirronment/ColumnHallFront" unique_id=527585259]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+shape = SubResource("CylinderShape3D_tx362")
+
+[node name="ColumnHallFront2" type="StaticBody3D" parent="StaticEnvirronment" unique_id=1140201066]
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, -6.258, 3.349, -1.74)
+
+[node name="Base" type="MeshInstance3D" parent="StaticEnvirronment/ColumnHallFront2" unique_id=1702315498]
+transform = Transform3D(0.92, 0, 0, 0, 0.28, 0, 0, 0, 0.92, 0, 0, 0)
+mesh = SubResource("BoxMesh_jq2cn")
+surface_material_override/0 = SubResource("StandardMaterial3D_a5s8o")
+
+[node name="Shaft" type="MeshInstance3D" parent="StaticEnvirronment/ColumnHallFront2" unique_id=868662169]
+transform = Transform3D(0.7, 0, 0, 0, 3, 0, 0, 0, 0.7, 0, 0, 0)
+mesh = SubResource("CylinderMesh_ls4ot")
+surface_material_override/0 = SubResource("StandardMaterial3D_a5s8o")
+
+[node name="Capital" type="MeshInstance3D" parent="StaticEnvirronment/ColumnHallFront2" unique_id=696716950]
+transform = Transform3D(0.95, 0, 0, 0, 0.3, 0, 0, 0, 0.95, 0, 3.32, 0)
+mesh = SubResource("BoxMesh_jq2cn")
+surface_material_override/0 = SubResource("StandardMaterial3D_a5s8o")
+
+[node name="Shape" type="CollisionShape3D" parent="StaticEnvirronment/ColumnHallFront2" unique_id=434105441]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+shape = SubResource("CylinderShape3D_tx362")
+
+[node name="TorchVault" type="Node3D" parent="StaticEnvirronment" unique_id=1575547152]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2033279, -0.58173656, 0.56764495)
+
+[node name="Bracket" type="MeshInstance3D" parent="StaticEnvirronment/TorchVault" unique_id=289578796]
+transform = Transform3D(0.16, 0, 0, 0, 0.5, 0, 0, 0, 0.16, 0, 2.5, 0.12)
+mesh = SubResource("BoxMesh_bekh1")
+surface_material_override/0 = SubResource("StandardMaterial3D_8bcou")
+
+[node name="Flame" type="MeshInstance3D" parent="StaticEnvirronment/TorchVault" unique_id=1453544593]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.92, 0.3)
+mesh = SubResource("QuadMesh_jq2cn")
+
+[node name="Light" type="OmniLight3D" parent="StaticEnvirronment/TorchVault" unique_id=566287347]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.95, 0.35)
+light_color = Color(1, 0.66, 0.32, 1)
+light_energy = 2.2
+omni_range = 9.0
+omni_attenuation = 1.4
+script = ExtResource("10_lf3p4")
+
+[node name="TorchVault2" type="Node3D" parent="StaticEnvirronment" unique_id=1946939875]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, -0.582, 0.568)
+
+[node name="Bracket" type="MeshInstance3D" parent="StaticEnvirronment/TorchVault2" unique_id=1622475945]
+transform = Transform3D(0.16, 0, 0, 0, 0.5, 0, 0, 0, 0.16, 0, 2.5, 0.12)
+mesh = SubResource("BoxMesh_bekh1")
+surface_material_override/0 = SubResource("StandardMaterial3D_8bcou")
+
+[node name="Flame" type="MeshInstance3D" parent="StaticEnvirronment/TorchVault2" unique_id=361623755]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.92, 0.3)
+mesh = SubResource("QuadMesh_jq2cn")
+
+[node name="Light" type="OmniLight3D" parent="StaticEnvirronment/TorchVault2" unique_id=36113042]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.95, 0.35)
+light_color = Color(1, 0.66, 0.32, 1)
+light_energy = 2.2
+omni_range = 9.0
+omni_attenuation = 1.4
+script = ExtResource("10_lf3p4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticEnvirronment" unique_id=1416723664]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.295, 0.376, 0.0010719299)
+mesh = SubResource("BoxMesh_1bvd7")
+surface_material_override/0 = SubResource("ShaderMaterial_omn1t")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="StaticEnvirronment/MeshInstance3D" unique_id=2071353186]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859, 0.031650543)
+mesh = SubResource("BoxMesh_f7u7y")
+surface_material_override/0 = SubResource("StandardMaterial3D_1bvd7")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="StaticEnvirronment" unique_id=762201442]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.2, 0.376, 0)
+mesh = SubResource("BoxMesh_1bvd7")
+surface_material_override/0 = SubResource("ShaderMaterial_omn1t")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="StaticEnvirronment/MeshInstance3D2" unique_id=802330240]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.838, 0)
+mesh = SubResource("BoxMesh_f7u7y")
+surface_material_override/0 = SubResource("StandardMaterial3D_1bvd7")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="StaticEnvirronment" unique_id=1444004203]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0.376, -7.2)
+mesh = SubResource("BoxMesh_1bvd7")
+surface_material_override/0 = SubResource("ShaderMaterial_omn1t")
+
+[node name="Optimize the neural_sky_gdshader so it is less coputer heavy (get rid of the thunder and storm, just keep a simple neural field with smooth fireing)_" type="MeshInstance3D" parent="StaticEnvirronment/MeshInstance3D3" unique_id=75167698]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.838, 0)
+mesh = SubResource("BoxMesh_f7u7y")
+surface_material_override/0 = SubResource("StandardMaterial3D_1bvd7")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="StaticEnvirronment" unique_id=1659805242]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0.376, 7.2)
+mesh = SubResource("BoxMesh_1bvd7")
+surface_material_override/0 = SubResource("ShaderMaterial_omn1t")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="StaticEnvirronment/MeshInstance3D4" unique_id=630117356]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.838, 0)
+mesh = SubResource("BoxMesh_f7u7y")
+surface_material_override/0 = SubResource("StandardMaterial3D_1bvd7")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="StaticEnvirronment" unique_id=1041615300]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0.376, 7.2)
+mesh = SubResource("BoxMesh_1bvd7")
+surface_material_override/0 = SubResource("ShaderMaterial_omn1t")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticEnvirronment" unique_id=1517638397]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2401123, 2.6065063, 7.1895475)
+shape = SubResource("BoxShape3D_y15du")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticEnvirronment" unique_id=173701858]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24, 2.607, -7.19)
+shape = SubResource("BoxShape3D_y15du")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="StaticEnvirronment" unique_id=1229922640]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.19, 2.607, 0)
+shape = SubResource("BoxShape3D_y15du")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="StaticEnvirronment" unique_id=2105548080]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -7.19, 2.607, 0)
+shape = SubResource("BoxShape3D_y15du")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=344653130]
+environment = SubResource("Environment_yydhl")
+
+[connection signal="body_entered" from="StaticTemple/EndCrytstal" to="." method="nextLevel"]
+[connection signal="body_entered" from="3DButtonBackward" to="3DButtonBackward" method="_on_body_entered"]
+[connection signal="body_entered" from="3DButtonBackward" to="." method="overrideTime" binds= [true, -2.0]]
+[connection signal="body_exited" from="3DButtonBackward" to="3DButtonBackward" method="_on_body_exited"]
+[connection signal="body_exited" from="3DButtonBackward" to="." method="overrideTime" binds= [false, 1.0]]
+[connection signal="body_entered" from="3DButtonForward" to="3DButtonForward" method="_on_body_entered"]
+[connection signal="body_entered" from="3DButtonForward" to="." method="overrideTime" binds= [true, 2.0]]
+[connection signal="body_exited" from="3DButtonForward" to="3DButtonForward" method="_on_body_exited"]
+[connection signal="body_exited" from="3DButtonForward" to="." method="overrideTime" binds= [false, 1.0]]

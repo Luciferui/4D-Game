@@ -986,7 +986,3 @@ outline_size = 24
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2, 1.05, -3.4)
 script = ExtResource("9_muost")
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=526954637]
-transform = Transform3D(0.7071, -0.2752, 0.6513, 0, 0.921, 0.3892, -0.7071, -0.2752, 0.6513, 8.2, 6.2, 8.2)
-fov = 70.0
-far = 10000.0
