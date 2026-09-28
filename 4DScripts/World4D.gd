@@ -6,6 +6,7 @@ var angle_XW: float = 0.0
 var overrideTimeFlow := false
 var overrideTimeSpeed := 1.0
 
+@export var next_level : String 
 @export var rotation_speed: float = 5.0
 
 func _process(delta: float) -> void:
@@ -73,4 +74,4 @@ func overrideTime(body: Node3D, timeFlow: bool, Speed: float) -> void:
 
 
 func nextLevel(body: Node3D) -> void:
-	get_tree().change_scene_to_file("res://levels/level0.tscn")
+	get_tree().change_scene_to_file(next_level)

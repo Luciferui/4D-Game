@@ -512,6 +512,7 @@ adjustment_saturation = 1.15
 
 [node name="Node3D" type="Node3D" unique_id=1133795623]
 script = ExtResource("1_pdpul")
+next_level = "res://levels/level2.tscn"
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1412806505]
 transform = Transform3D(0.120136745, 0.2452101, -0.9619975, 0, 0.9690157, 0.24699901, 0.9927574, -0.029673656, 0.1164144, 0, 8.033758, 0)

@@ -7,14 +7,8 @@ genuine 3D cross-section of that 4D scene. Rotating the `XW` plane turns the roo
 own history into geometry you can walk around — a seal that was broken becomes the
 fan of slabs it used to be.
 
-<!-- ============================================================================
-     GIF 01 — À FOURNIR  ·  gif principal, juste sous le titre
-     fichier : docs/media/01_hero.gif
-     montrer : la boucle complète — marcher dans le hall, [X] ouvrir le plan XW,
-               les tranches s'écarter en éventail, [I] rembobiner vers le passé
-     format  : 960x540 · 10-15 s · boucle sans coupure · < 8 Mo
-============================================================================ -->
-![Walking through the hall, opening the XW plane into a fan of slices, then rewinding to the past](docs/media/01_hero.gif)
+**Video** : changing rotation angle (that expand the door), then pressing a rewind button (blue) that brings back in the past when the door was open.
+<video src="docs/media/4D manipulation level1.mp4" controls width="100%"></video>
 
 *Solo project: code, shaders, level and art direction are mine. Godot 4.7 · GDScript · no textures and no imported 3D models — every surface is a shaded engine primitive.*
 
@@ -23,7 +17,7 @@ fan of slabs it used to be.
 ## What it is
 
 * **A 4D → 3D renderer.** `World4D` projects every slice of every object through a
-  rotation of the `XW` plane around "now", then keeps only the slices whose `w'` is
+  rotation of the `XW` plane around "now", then keeps only the slices whose `w` is
   almost zero: that hyperplane is the 3D world the camera lives in.
 * **Time slices instead of animation.** `Object4D` clones its template `time_slices`
   times and freezes each clone's `AnimationPlayer` at its own instant, so a door's
@@ -51,24 +45,7 @@ operations are enough to build a whole game:
    `angle_XW`. Space and time mix, and an object's history is laid out as a fan of
    slabs in front of you.
 
-<!-- ============================================================================
-     GIF 02 — À FOURNIR  ·  la rotation du plan XW  (le cœur du projet)
-     fichier : docs/media/02_xw_rotation.gif
-     montrer : caméra immobile dans le hall, [X] maintenu : la porte scellée
-               (2000 tranches) s'ouvre en éventail jusqu'au plan à 90°
-     format  : 800x450 · 8-12 s · boucle · ne pas bouger la caméra, garder
-               un plan lisible
-============================================================================ -->
-![Rotating the XW plane unfolds the sealed gate into a fan of time slices](docs/media/02_xw_rotation.gif)
-
-<!-- ============================================================================
-     GIF 03 — À FOURNIR  ·  rembobinage vers le passé  ([I])
-     fichier : docs/media/03_rewind_past.gif
-     montrer : le sceau intact, puis [I] : le sceau disparaît, le monolithe de
-               cristal et le Label3D « PASSÉ • LE SCEAU EST ROMPU » apparaissent
-     format  : 800x450 · 6-10 s · boucle  (aller-retour I puis attente)
-============================================================================ -->
-![Rewinding with I brings back the broken seal and the past monolith](docs/media/03_rewind_past.gif)
+<video src="docs\media\Stairs level2.mp4" controls width="100%"></video>
 
 ---
 
@@ -89,47 +66,6 @@ remappable in the **Input Map** tab of the project settings.
 
 ---
 
-## The demo level — `levels/level0.tscn`
-
-A torch-lit hall opening onto a vault, all of it procedural. Five objects are `Object4D`
-instances and each one stretches a different part of the `w` axis:
-
-| Node | `w` range | Slices | Role |
-| --- | --- | --- | --- |
-| `GateSealed` | 1.8 → 240 | 2000 | the slab that seals the vault (`chrono_slab` shader); it only exists *after* the seal closes |
-| `GateRising` | 0.8 → 1.8 | 24 | the same door mid-motion: 24 frozen poses of a door-lift `AnimationPlayer` |
-| `SealBroken` | 0 → 2 | 8 | the three broken sealing bands, only in the past |
-| `PastMonolith` | 0 → 2 | 8 | a lit orange crystal, placed via `position_3d_origin = (-5.2, 0, -3.6)` |
-| `PastLabel` | 0 → 2 | 8 | a billboard `Label3D`: *« PASSÉ • LE SCEAU EST ROMPU »* |
-
-Around them: `wall_stone` / `floor_stone` shaders, torch and brazier `OmniLight3D`s with
-random-phased flicker, GPU dust particles, an altar with a floating relic, a bench, a crate.
-
-`levels/level1.tscn` (a temple interior with windows and the neural sky) and
-`levels/level2.tscn` (platforms driven by walk-on buttons) are further scenes still being
-built — see [Roadmap](#roadmap--known-limits).
-
-<!-- ============================================================================
-     GIF 04 — À FOURNIR  ·  la porte traversée par l'axe w
-     fichier : docs/media/04_gate_slices.gif
-     montrer : caméra dans le hall, avancer vers la porte pendant que le w
-               avance : la porte « monte » tranche par tranche devant vous
-               (faire varier l'angle XW en même temps est encore mieux)
-     format  : 800x450 · 8-12 s · boucle
-============================================================================ -->
-![The gate rising: the door's animation spread along w, crossed slice by slice](docs/media/04_gate_slices.gif)
-
-<!-- ============================================================================
-     GIF 05 — À FOURNIR  ·  la collision qui suit la visibilité
-     fichier : docs/media/05_slice_collision.gif
-     montrer : marcher sur une tranche de sol et tomber dans le « trou » quand
-               le w la fait disparaître (ou passer à travers le sceau scellé
-               en le regardant à un autre w)
-     format  : 800x450 · 6-10 s · boucle
-============================================================================ -->
-![Falling through the hole in time when the floor's slice disappears](docs/media/05_slice_collision.gif)
-
----
 
 ## How it works
 
