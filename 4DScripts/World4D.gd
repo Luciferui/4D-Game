@@ -50,10 +50,10 @@ func render_world_4d() -> void:
 				var relative_w = ghost_w - global_T
 				
 				# Étape 2 : Projection matricielle (Rotation sur le plan XW)
-				var x_prime = object.position_3d_origin.x * c + relative_w * s
+				var x_prime = object.position_3d_origin.x + relative_w * s#object.position_3d_origin.x * c + relative_w * s
 				var y_prime = object.position_3d_origin.y
 				var z_prime = object.position_3d_origin.z
-				var w_prime = -object.position_3d_origin.x * s + relative_w * c
+				var w_prime = relative_w * c #-object.position_3d_origin.x * s + relative_w * c
 				
 				# Étape 3 : Plan de coupe (La caméra voit ce qui a w' proche de 0)
 				if abs(relative_w) < thickness:
