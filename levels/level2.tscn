@@ -2,7 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bkbndli2vj25w" path="res://4DScripts/World4D.gd" id="1_76ugp"]
 [ext_resource type="PackedScene" uid="uid://4q6di3hbcqye" path="res://player/player.tscn" id="1_qyb5k"]
+[ext_resource type="Texture2D" uid="uid://cc2x8hy1fceqn" path="res://assets/behindboussole.png" id="2_fjysh"]
 [ext_resource type="Script" uid="uid://d1j82o7pkpe7a" path="res://player/Player3D.gd" id="2_py88r"]
+[ext_resource type="Texture2D" uid="uid://b7huqq6c2fiuf" path="res://assets/frontboussole.png" id="3_bcewn"]
 [ext_resource type="Shader" uid="uid://dytjr5s7pc38s" path="res://shaders/floor_stone.gdshader" id="3_g1dg4"]
 [ext_resource type="Script" uid="uid://cf8m4lw14ne0x" path="res://assets/Torch.gd" id="4_55gdq"]
 [ext_resource type="Shader" uid="uid://dxrqr10uakta1" path="res://shaders/wall_stone.gdshader" id="4_s1bpp"]
@@ -184,7 +186,7 @@ albedo_color = Color(0.5686275, 0.54901963, 0.5019608, 1)
 metallic = 0.47
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bcewn"]
-size = Vector3(15.346924, 1.7910767, 0.91345215)
+size = Vector3(15.346924, 5.329132, 0.91345215)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ssidi"]
 size = Vector3(2, 5.0527344, 2)
@@ -439,6 +441,28 @@ _data = {
 [node name="Level2" type="Node3D" unique_id=514158926]
 script = ExtResource("1_76ugp")
 next_level = "res://levels/level1.tscn"
+
+[node name="Boussole" type="Node2D" parent="." unique_id=257950531]
+
+[node name="Behindboussole" type="Sprite2D" parent="Boussole" unique_id=1752526209]
+position = Vector2(116.73, 967.41)
+scale = Vector2(2, 2)
+texture = ExtResource("2_fjysh")
+
+[node name="Frontboussole" type="Sprite2D" parent="Boussole" unique_id=226170126]
+position = Vector2(116, 963)
+scale = Vector2(2, 2)
+texture = ExtResource("3_bcewn")
+offset = Vector2(-0.99, 1.5)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Boussole" unique_id=430674907]
+offset_left = 87.0
+offset_top = 828.0
+offset_right = 167.0
+offset_bottom = 878.0
+theme_override_font_sizes/normal_font_size = 32
+text = "90°"
+horizontal_alignment = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1431040541]
 environment = SubResource("Environment_hq01p")
@@ -705,19 +729,19 @@ mesh = SubResource("BoxMesh_55gdq")
 surface_material_override/0 = SubResource("ShaderMaterial_crte6")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticEnv/Floor" unique_id=1702576025]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2401123, 0.39553833, 7.1895475)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2401123, 2.164566, 7.1895475)
 shape = SubResource("BoxShape3D_bcewn")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticEnv/Floor" unique_id=516725071]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24, 0.396, -7.19)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24, 2.165, -7.19)
 shape = SubResource("BoxShape3D_bcewn")
 
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="StaticEnv/Floor" unique_id=1433245572]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.19, 0.396, 0)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.19, 2.165, 0)
 shape = SubResource("BoxShape3D_bcewn")
 
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="StaticEnv/Floor" unique_id=22790717]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -7.19, 0.396, 0)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -7.19, 2.165, 0)
 shape = SubResource("BoxShape3D_bcewn")
 
 [node name="TopElevator" type="StaticBody3D" parent="StaticEnv" unique_id=2059500275]

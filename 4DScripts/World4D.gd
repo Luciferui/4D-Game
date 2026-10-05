@@ -1,4 +1,5 @@
 extends Node
+class_name World4D
 
 # Variables d'état de l'espace-temps
 var global_T: float = 0.0
@@ -8,6 +9,9 @@ var overrideTimeSpeed := 1.0
 
 @export var next_level : String 
 @export var rotation_speed: float = 5.0
+
+func _ready():
+	display_XW_angle()
 
 func _process(delta: float) -> void:
 	# Le temps réel pousse le présent de la caméra vers l'avant
@@ -24,10 +28,13 @@ func _process(delta: float) -> void:
 		rotation_changed = true
 	if Input.is_action_pressed("reinit_xw"):
 		angle_XW = 0.
+		rotation_changed = true
 	if Input.is_action_pressed("pi2_xw"):
 		angle_XW = 3.14116 / 2
+		rotation_changed = true
 	if Input.is_action_pressed("T_glob_reinit"):
 		global_T = 0.
+	if rotation_changed: display_XW_angle()
 	#test
 	# Rendu continu à chaque frame
 	render_world_4d()
@@ -72,6 +79,11 @@ func overrideTime(body: Node3D, timeFlow: bool, Speed: float) -> void:
 	overrideTimeSpeed = Speed
 	print(overrideTimeFlow, " ", overrideTimeSpeed)
 
+func display_XW_angle():
+	var a = 0.85
+	var display_angle = PI/2 * tan(a*angle_XW) / tan(a*PI/2)
+	$Boussole/Frontboussole.rotation = display_angle
+	$Boussole/RichTextLabel.text = str(int(rad_to_deg(display_angle))) + " °"
 
 func nextLevel(body: Node3D) -> void:
 	get_tree().change_scene_to_file(next_level)
